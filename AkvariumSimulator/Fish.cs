@@ -31,14 +31,28 @@ namespace AkvariumSimulator
         public int OxygenRequirement { get; set; } // fish loses health if oxygen in aquarium is below this
 
         public double OxygenUsePerTick { get; set; } // the fish use of Oxygen from the aquarium
+       public double DirtyMeter { get; protected set; }
 
-        public Fish( string specie, string _acceptedFoodType)
+        
+
+
+        public Fish( string specie, string _acceptedFoodType, int strength, double hungryPerTick, double dirtyPerTick, int oxygenRequirement, double oxygenpertick  )
         {
             AcceptedFoodType = _acceptedFoodType;
             Specie = specie;
             Health = 100;
             IsAlive = true;
+            HungryMeter = 0;
+            Strength = strength;
+            HungryPerTick = hungryPerTick;
+            DirtyPerTick = dirtyPerTick;    
+            OxygenRequirement = oxygenRequirement;
+            OxygenUsePerTick = oxygenpertick;
         }
+
+      
+
+       
 
         public string AcceptedFoodType
         {
@@ -55,16 +69,28 @@ namespace AkvariumSimulator
                 }
             }
         }
+ 
 
-
-
-        private double DirtyMeter{get ; set; } 
-
-        void hungryFunc() // #TODO: This is temporary
+        public void CalculateHungry() // #TODO: This is temporary
         {
             HungryMeter+= HungryPerTick;
         }
 
+        public void Eat()
+        {
+            HungryMeter -= 50;
+           DirtyMeter += 10;
+
+        }
+
+        public void CheckIfTheyRHungry()
+        {
+            if(HungryMeter == 100)
+            {
+                isHungry = true;
+            }
+
+        }
         // if hungry is equal to or over a certain level, then the fish will eat (hungry bool will be true)
 
     }

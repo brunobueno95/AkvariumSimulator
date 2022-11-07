@@ -8,26 +8,21 @@ namespace AkvariumSimulator
 {
     internal class CarnivourFish : Fish
     {
-        public CarnivourFish(string specie, string _acceptedFoodType) : base(specie, _acceptedFoodType)
+        public CarnivourFish(string specie, string _acceptedFoodType, int strength, double hungryPerTick, double dirtyPerTick, int oxygenRequirement, double oxygenpertick) : base(specie, _acceptedFoodType, strength, hungryPerTick, dirtyPerTick, oxygenRequirement, oxygenpertick)
         {
-           
         }
-
         public void EatFish(Aquarium AquariumHesIn)
         {
-            if(isHungry == true)
+            if (isHungry == true)
             {
-               var FishestoEat = AquariumHesIn.AllFishes.FindAll(f => f.Strength < this.Strength);
+                var FishestoEat = AquariumHesIn.AllFishes.FindAll(f => f.Strength < this.Strength);
                 Random random = new Random();
-                var r = random.Next(0,FishestoEat.Count + 1);
+                var r = random.Next(0, FishestoEat.Count + 1);
                 AquariumHesIn.AllFishes.Remove(FishestoEat[r]);
+                AquariumHesIn.DirtyMax += 10;
 
             }
 
-            else
-            {
-
-            }
         }
     }
 }
