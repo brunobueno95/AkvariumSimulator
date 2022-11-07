@@ -27,10 +27,10 @@ namespace AkvariumSimulator
 
         public double DirtyMax { get; set; }
 
-        public double TotalDirtPerTick { get; set; }
-        public double TotalOxygenPerTick { get; set; }
+        public  double TotalDirtPerTick { get; set; }
+        public double TotalOxygenUsedPerTick { get; set; }
 
-        public int OxygenLevel { get; set; }
+        public double OxygenLevel { get; set; }
 
         public Aquarium(int height, int width, int depth)
         {
@@ -62,19 +62,35 @@ namespace AkvariumSimulator
 
         public void CalculateOxygenPertick()
         {
-            TotalOxygenPerTick = 0;
+            TotalOxygenUsedPerTick = 0;
+            //List<CleanerFish> CleanerFishes = AllFishes.FindAll(f => f.TypeOfFish == "cleaner"); //#TODO: ask Terje about this.
 
-            foreach(var fish in AllFishes)
+
+            TotalOxygenUsedPerTick += Afilter.CreatesOxygenPerTick;
+            
+            foreach (var fish in AllFishes)
             {
-                TotalOxygenPerTick += fish.OxygenUsePerTick;
+                TotalOxygenUsedPerTick += fish.OxygenUsePerTick;
             }
             foreach(var plant in AllPlants)
             {
-                TotalOxygenPerTick -= plant.CreateOxygenPerTick;
+                TotalOxygenUsedPerTick -= plant.CreateOxygenPerTick;
             }
         }
 
-        // public void CalculateOxygenLevel
+        public void CalculateOxygenLevel()
+        {
+            if(TotalOxygenUsedPerTick < 0)
+            {
+                OxygenLevel -= TotalOxygenUsedPerTick;
+            }
+            else
+            {
+                OxygenLevel += TotalOxygenUsedPerTick;
+            }
+           
+
+        }
         // plants and filter makes oxygen
         // fishes and feeding takes off oxygen
     }

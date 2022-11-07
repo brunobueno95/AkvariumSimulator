@@ -8,6 +8,7 @@ namespace AkvariumSimulator
 {
     internal abstract class Fish
     {
+        public string TypeOfFish { get; protected set; }
         public string Specie { get; set; }
 
         public double Health { set; get; } // fish regains health if the aquarium is clean, enough oxygen,and has enough food
@@ -91,6 +92,16 @@ namespace AkvariumSimulator
             }
 
         }
+
+        public void CheckifIsAlive()
+        {
+            if(Health <= 0)
+            {
+                IsAlive = false;
+            }
+        }
+
+
         // if hungry is equal to or over a certain level, then the fish will eat (hungry bool will be true)
 
     }

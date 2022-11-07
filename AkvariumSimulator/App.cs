@@ -9,6 +9,11 @@ namespace AkvariumSimulator
     internal class App
     {
 
+
+        public App()
+        {
+
+        }
         // we added tre fishes
 
         // we use totaldirty per tick after calculated on the tick
