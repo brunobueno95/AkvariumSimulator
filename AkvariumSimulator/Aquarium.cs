@@ -9,6 +9,7 @@ namespace AkvariumSimulator
 {
     internal class Aquarium
     {
+        
         public List<Fish> AllFishes { get; set; }
 
         public Filter Afilter { get; set; }
@@ -25,7 +26,7 @@ namespace AkvariumSimulator
 
         public bool Dirty { get; set; } // if is dirty oxygen go down faster. Loses health as well?
 
-        public double DirtyMax { get; set; }
+        public double DirtyMax { get; private set; }
 
         public  double TotalDirtPerTick { get; set; }
         public double TotalOxygenUsedPerTick { get; set; }
@@ -39,17 +40,32 @@ namespace AkvariumSimulator
             Depth = depth;
             DirtyMax = 0;
             AllFishes = new List<Fish>();
+            AllPlants = new List<Plant>();
+            calculateVolume();
         }
 
+
+        public void AddFilter(Filter afilter)
+        {
+            Afilter = afilter;
+        }
+        public void calculateVolume()
+        {
+            Volume = Height * Width * Depth;
+        }
 
         public void AddFish(Fish f)
         {
             AllFishes.Add(f);
         }
-
-        public void AddPlant(Plant p)
+        public void addaPLant(Plant p)
         {
+
             AllPlants.Add(p);
+        }        
+        public void  checkTotalDirt()
+        {
+            DirtyMax += TotalDirtPerTick;
         }
         public void CalculateDirtPerTick()
         {
@@ -58,11 +74,12 @@ namespace AkvariumSimulator
             {
                 TotalDirtPerTick += fish.DirtyPerTick;
             }
+            TotalDirtPerTick -= Afilter.CleansPerTick;
         }
 
         public void CalculateOxygenPertick()
         {
-            TotalOxygenUsedPerTick = 0;
+            //TotalOxygenUsedPerTick = 0;
             //List<CleanerFish> CleanerFishes = AllFishes.FindAll(f => f.TypeOfFish == "cleaner"); //#TODO: ask Terje about this.
 
 
@@ -70,11 +87,11 @@ namespace AkvariumSimulator
             
             foreach (var fish in AllFishes)
             {
-                TotalOxygenUsedPerTick += fish.OxygenUsePerTick;
+                TotalOxygenUsedPerTick -= fish.OxygenUsePerTick;
             }
             foreach(var plant in AllPlants)
             {
-                TotalOxygenUsedPerTick -= plant.CreateOxygenPerTick;
+                TotalOxygenUsedPerTick += plant.CreateOxygenPerTick;
             }
         }
 
@@ -91,7 +108,31 @@ namespace AkvariumSimulator
            
 
         }
-        // plants and filter makes oxygen
-        // fishes and feeding takes off oxygen
+        public void RemoveDirt(int amount)
+        {
+            DirtyMax -= amount;
+        }
+
+        public void AddDirt(int amount)
+        {
+            DirtyMax += amount;
+        }
+        public void RemoveFish(Fish fishremoved)
+        {
+            AllFishes.Remove(fishremoved);
+        }
+        public void RemovePlant(Plant plantremoved)
+        {
+            AllPlants.Remove(plantremoved);
+        }
+
+        public List<Fish> getListofWeackerFishes( int strentghCarnivour)
+        {
+            var FishestoEat = new List<Fish>();
+             FishestoEat = AllFishes.FindAll(f => f.Strength < strentghCarnivour);
+            return FishestoEat;
+
+        }
+        
     }
 }

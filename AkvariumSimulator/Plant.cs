@@ -16,6 +16,8 @@ namespace AkvariumSimulator
         public int Health { get; set; }
         public int DirtyMakesPerTick { get; set; }
 
+        public Aquarium AquariumIsIn { get; set; }
+
         public Plant(double createOxygenPerTick, bool IsPoisonous)
         {
             Health = 100;
@@ -27,21 +29,19 @@ namespace AkvariumSimulator
             if(Health <= 0)
             {
                 IsAlive = false;
+               
             }
         }
 
-        public void CreateDirtIfIsDead()
+        public void LooseHealh(int amount)
         {
-            if(!IsAlive)
-            {
-                DirtyMakesPerTick = 2;
-            }
-            else
-            {
-                DirtyMakesPerTick = 0;
-            }
-            
+            Health -= amount;
         }
+
+         
+        
+
+        
         
 
        
