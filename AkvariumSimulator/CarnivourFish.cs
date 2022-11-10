@@ -12,6 +12,18 @@ namespace AkvariumSimulator
         {
             TypeOfFish = "Carni";
         }
+        public CarnivourFish()
+        {
+            TypeOfFish = "Carni";
+            Strength = 10;
+            HungryPerTick = 0.3;
+            DirtyPerTick = 0.5;
+            OxygenRequirement = 10;
+            OxygenUsePerTick = 0.03;
+            HungryMeter = 200;
+                
+
+        }
         public override void Eat()
         {       
            

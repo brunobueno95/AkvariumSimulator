@@ -9,7 +9,7 @@ namespace AkvariumSimulator
         {
 
             App app = new App();
-            
+            app.RunApp();
         }
 
 

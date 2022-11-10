@@ -72,6 +72,10 @@ namespace AkvariumSimulator
             TotalDirtPerTick = 0;
             foreach(var fish in AllFishes)
             {
+                if(fish is CleanerFish cleaner)
+                {
+                    TotalDirtPerTick -= cleaner.CleansPerTick;
+                }
                 TotalDirtPerTick += fish.DirtyPerTick;
             }
             TotalDirtPerTick -= Afilter.CleansPerTick;
@@ -80,7 +84,8 @@ namespace AkvariumSimulator
         public void CalculateOxygenPertick()
         {
             //TotalOxygenUsedPerTick = 0;
-            //List<CleanerFish> CleanerFishes = AllFishes.FindAll(f => f.TypeOfFish == "cleaner"); //#TODO: ask Terje about this.
+             //AllFishes.FindAll(f => f.TypeOfFish == "cleaner"); //#TODO: ask Terje about this.
+        
 
 
             TotalOxygenUsedPerTick += Afilter.CreatesOxygenPerTick;
